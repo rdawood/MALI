@@ -1,0 +1,162 @@
+
+	<html>
+	<head>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<meta charset="utf-8">
+	</head>
+	
+		<body>
+		<script>
+				var title = "Coriolanus"
+				var dataset = [{word: "rome", occurence: [1097, 1206, 2176, 2208, 2269, 2310, 2343, 2363, 2768, 3635, 3911, 4427, 5101, 5193, 5623, 5637, 6015, 6365, 7288, 7316, 7321, 7481, 7561, 8834, 11967, 13371, 13780, 13834, 13986, 15293, 15652, 15878, 16030, 16195, 16249, 16602, 17144, 17218, 17310, 17502, 17528, 17735, 18543, 18957, 18980, 19017, 19070, 19543, 20089, 20157, 20324, 20557, 20664, 20727, 20800, 21280, 21294, 21330, 21518, 21654, 21670, 21870, 21908, 22059, 22178, 22197, 22217, 22446, 22537, 22756, 22881, 23025, 23064, 23094, 23291, 23332, 23541, 23755, 24169, 24428, 24545, 24641, 24771, 25091, 25266, 25645, 25923, 26048]}, {word: "his", occurence: [184, 237, 244, 259, 266, 797, 933, 1356, 1777, 1972, 1978, 2028, 2110, 2129, 2158, 2501, 2529, 2601, 2645, 2769, 2773, 2793, 2795, 2812, 2859, 2864, 2926, 2994, 3005, 3825, 4619, 4707, 4723, 4740, 4784, 5177, 5486, 5531, 5748, 5873, 6897, 7012, 7118, 7138, 7202, 7706, 7726, 7734, 7775, 7827, 7840, 7987, 8017, 8234, 8318, 8321, 8360, 8366, 8448, 8456, 8770, 8857, 8889, 8913, 8920, 8967, 8990, 8992, 9050, 9061, 9066, 9112, 9158, 9469, 9474, 9494, 9761, 9788, 10600, 10614, 10667, 10693, 10727, 10886, 10899, 10911, 10931, 10935, 10941, 10963, 10987, 11014, 11154, 11157, 11175, 11185, 11193, 11293, 11355, 11366, 11386, 11390, 11456, 11473, 11624, 11654, 11983, 12167, 12211, 12243, 12271, 12340, 12342, 13502, 13504, 13518, 13526, 13528, 13531, 13535, 13687, 13864, 13874, 13903, 13932, 13939, 14004, 14065, 14970, 15169, 15400, 15590, 15609, 15621, 15772, 15810, 15979, 16314, 16638, 16738, 16997, 17039, 17189, 17193, 17228, 17262, 17687, 17697, 17907, 17913, 18041, 18113, 18116, 19143, 19161, 19164, 19177, 19494, 19557, 19604, 19619, 19823, 19846, 19917, 19955, 19958, 20144, 20278, 20282, 20614, 20654, 20676, 20783, 20789, 20936, 21140, 21200, 21250, 21261, 21296, 21358, 21544, 21570, 21579, 21717, 21722, 21771, 21774, 21894, 21927, 22015, 22053, 22061, 22066, 22082, 22106, 22115, 22119, 22132, 22220, 22266, 22273, 22317, 22342, 22391, 22478, 22972, 23838, 24198, 24206, 24209, 24405, 24477, 24479, 24485, 24773, 24843, 24855, 24865, 24883, 24893, 24900, 24908, 24924, 24956, 25295, 25383, 25389, 25471, 25479, 25496, 25509, 25542, 25557, 25568, 25578, 25594, 25610, 25619, 25700, 25774, 25779, 25782, 26054, 26059, 26077, 26157, 26173, 26243, 26296, 26304, 26330, 26436, 26458, 26460]}];;
+				var textLength = 26538;
+				var h = screen.height/1.5;
+				var w = screen.width-100;
+
+				var margins = {top: 20, bottom: 25, left: 200, right: 40};
+
+				var duration = 150;
+
+				if (textLength <= 20000) {
+					var n = 5;
+				} else if (textLength > 600000) {
+					var n = 20;
+				} else {
+					var n = 12;
+				}
+
+				if(dataset.length == 1) {
+					var ry = h/4;
+				} else if (dataset.length == 2) {
+					var ry = h/7;
+				} else if (dataset.length == 3) {
+					var ry = h/9;
+				} else if (dataset.length == 4) {
+					var ry = h/12;
+				} else if (dataset.length == 5) {
+					var ry = h/15;
+				} else {
+					var ry = h/2;
+				}
+
+				var xScale = d3.scale.linear()
+									.domain([0, textLength])
+									.range([margins.left, w-margins.right]);
+
+				var yScale = d3.scale.linear()
+									.domain([1, dataset.length])
+									.range([((h/(h/200))*-1), (h/(h/200))]);
+
+				var svg = d3.select("body")
+							.append("svg")
+								.attr('height', h)
+								.attr('width', w);
+
+				var words = svg.selectAll("text")
+								.data(dataset)
+								.enter()
+									.append("text")
+									.text(function (d, i) {
+										console.log(i);
+										return d.word;
+									})
+										.each(function (d, i) {
+											d3.select(this).attr("transform", "translate(" + margins.left/2.5 + "," + ((h/2) + yScale(i+1)) + ")")
+										})
+										.attr("font-size", "1.5em")
+										.attr("text-anchor", "middle")
+										.attr("fill", "white")
+										.attr("opacity", 0);
+
+				words.transition()
+					.duration(duration+1000)
+						.attr("opacity", 1);			
+			
+
+				var axis = d3.svg.axis()
+							.tickValues(xScale.domain())
+							.scale(xScale);
+
+
+				var markerScale = d3.scale.linear()
+								.domain([20000, 1000000])
+								.range([5, 1]);
+
+				var container = svg.selectAll("g")
+									.data(dataset)
+									.enter()
+										.append("g")
+										.attr("class", "gee")
+										.each(function (d, i) {
+											d3.select(this).attr("transform", "translate(0," + yScale(i+1)+ ")")
+										});
+
+				var marker = container.selectAll("ellipse")
+							.data(function (d, i) {
+								return d.occurence;
+							})
+							.enter()
+							.append("ellipse")
+								.attr("rx", markerScale(textLength))
+								.attr("ry", ry)
+								.attr("cy", h/2)
+								.attr("cx", w+50)
+								.attr("opacity", 0)
+								.attr("fill", "white");
+
+				marker.transition().ease("cubic")
+					.delay(function(d, i) {
+						return i / (n) * duration;
+					})
+					.duration(duration)
+						.attr("cx", function (d) {
+							return xScale(d);
+						})
+						.attr("opacity", .5)
+					.transition()
+					.duration(duration*10)
+							.attr("fill", "#FFF886");
+
+				var colorScale = d3.scale.linear()
+								.domain([0, dataset.length])
+								.range(["white", "#CC9900"]);
+
+				var axis = svg.append("g")
+							.attr("transform", "translate(0" + ", " + (h - margins.bottom) + ")")
+							.attr("class", "axis")
+							.call(axis)
+							.attr("opacity", 0);
+
+				axis.transition()
+					.duration(duration+1000)
+						.attr("opacity", 1);
+
+				svg.append("text")
+					.text("Frequency Distribution for: " + title)
+					.attr("x", w/2)
+					.attr("y", margins.top)
+					.attr("fill", "white");
+
+			</script>
+
+			<div id="descriptor">
+				<p>The frequency plot above marks each occurence of the word(s) indicated on the above left.</p>
+				<p>The axis runs from the first to the last word of the text.</p>
+				<p>The darker the color of the marks, the more frequently that word occurs in that section of the text.</p> </div>
+		
+			<style type="text/css">
+				.axis path, 
+				.axis line,
+				.axis text{
+					fill: #7B7B97;
+				}
+				body {
+					background-color: #474747;
+				}
+				#descriptor {
+					color: white;
+				}
+			</style>
+		</body>
+		</html>
+		
