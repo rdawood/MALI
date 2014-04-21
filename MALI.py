@@ -18,7 +18,7 @@ def main():
 	padding = "---------------------------------------------"
 
 	"""
->>>>---------------------Start--MAIN
+>>>>-------------------------------------------------------------------------------------Start--MAIN
 	"""
 
 	currentDirectory = os.path.dirname(os.path.realpath(__file__)) + "/Texts/"
@@ -65,7 +65,7 @@ def main():
 	fileToBeParsed = traverseDirectory + filePicked
 
 	"""
->>>>---------------------Start--Options
+>>>>-------------------------------------------------------------------------------------Start--Options
 	"""
 
 	quoteDelim = raw_input("""
@@ -104,7 +104,7 @@ def main():
 		stopWordsList = False
 	
 	"""
->>>>---------------------Tokenize
+>>>>-------------------------------------------------------------------------------------Tokenize
 	"""
 
 	words = parseFileIntoWords(readFile(fileToBeParsed))
@@ -123,7 +123,7 @@ def main():
 	print "\n\n" + padding + "Completed in " + str(round((time.time() - t2),2)) + " sec" + padding
 	
 	"""
->>>>---------------------Write--Tokenizer--Output
+>>>>-------------------------------------------------------------------------------------Write--Tokenizer--Output
 	"""
 
 	print "\n\nPrinting tokenizer output to tokenizer_ouput_" + filePicked[0:-4] + ".txt in\n\n" + os.path.dirname(os.path.realpath(__file__)) + "\n\n"
@@ -151,7 +151,7 @@ def main():
 	print padding
 
 	"""
->>>>---------------------Call--Visualizer
+>>>>-------------------------------------------------------------------------------------Call--Visualizer
 	"""
 
 	print """

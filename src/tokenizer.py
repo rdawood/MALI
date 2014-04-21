@@ -15,10 +15,6 @@ def parseFileIntoWords(readThis):
 
 	wordList = []
 
-	#V1 
-	#matchObj = re.findall(r"""(['][a-z]+[']+[a-z]+|['][a-z]+['][a-z]+[']|['][a-z]+[']\s+|[a-z]+['][a-z]+|['][a-z]+|[a-z]+[']|[a-z]+([-][a-z]+)+|[a-z]+['][a-z]+|[a-z]+|[0-9]+([:][0-9]+)+|[0-9]+([-][0-9]+)+|[0-9]+([,][0-9]+)+|[0-9]+)""", readThis.lower())
-
-	#v2
 	regCompiled = re.compile(r"""
 							(
 								[']*[a-z]+([-][a-z]+)+(['][a-z]+)+[']*|

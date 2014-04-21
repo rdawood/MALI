@@ -397,6 +397,3 @@ def runVisualization(script):
 	
 	webbrowser.open("file:///" + os.path.realpath('src/container.html'))
 
-	print """
-	Press enter to continue...
-	"""
