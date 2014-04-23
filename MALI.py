@@ -1,5 +1,15 @@
 #!/usr/bin/python
 
+"""
+	M.A.L.I. (Machine Assisted Literary Interpretation)
+	version 1.0
+	This software is provided under the MIT License. Please refer to the license documentation included 
+	with this package.
+
+		This software package is an experiment in the design and implementation of a tokenizer for use 
+		in the context of literary study. 
+"""
+
 from src.visualizer import *
 from src.tokenizer import *
 import os
@@ -9,11 +19,9 @@ import time
 
 def main():
 	"""
-	version .9.2 beta 
-	main() searches the directory of the script to find folders contained within it. 
-	Folders should contian text files. 
-	It prompts the users to select a folder and a text file. 
-	It then prompts for various inputs to provide the tokenized data to the user.
+	Traverses the programs source directory to find any folders and files that can be read.
+	To add files for the program to read, add them in the same manner that the sample texts are 
+	structured (put the file in a folder under 'Texts').
 	"""
 	padding = "---------------------------------------------"
 
@@ -22,9 +30,10 @@ def main():
 	"""
 
 	currentDirectory = os.path.dirname(os.path.realpath(__file__)) + "/Texts/"
+	#Find the programs current directory
 
 	listOfFolders, listOfFiles = [], []
-	
+
 	for root, dirs, files in os.walk(currentDirectory):
 		for dir in dirs:
 			listOfFolders.append(dir)
@@ -33,6 +42,7 @@ def main():
 
 	for each in range(len(listOfFolders)):
 		dictOfFolders[each] = listOfFolders[each]
+	#Write a dictionary of folders for the user to choose from.
 
 	print "Which directory would you like to search?\n"
 
@@ -43,6 +53,7 @@ def main():
 	folderPicked = dictOfFolders[int(folderPicked)-1]
 
 	traverseDirectory = currentDirectory + '/' + folderPicked + '/'
+	#traverse the directory chosen and comile a dictionary of files.
 
 	for root, dirs, files in os.walk(traverseDirectory):
 			for file in files:
@@ -111,8 +122,6 @@ def main():
 
 	pool = Pool()
 
-	#markers = findMarkers(words)
-
 	t2 = time.time()
 
 	if quoteDelim == "'" or stripApos.lower() == 'y':
@@ -132,8 +141,6 @@ def main():
 	for tup in sorted(wordCounter.most_common(), key = lambda word: word[0]):
 		fileWrite.write(str(tup[0]) + ", " + str(tup[1]) +"\n")
 	fileWrite.close()
-
-	#wordLengthCounter = frequencyDistribution(words, "length", quoteDelim, stripApos)
 
 	print "\n"
 	input = raw_input("""

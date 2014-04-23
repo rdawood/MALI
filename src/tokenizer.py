@@ -17,7 +17,7 @@ def parseFileIntoWords(readThis):
 
 	regCompiled = re.compile(r"""
 							(
-								[']*[a-z]+([-][a-z]+)+(['][a-z]+)+[']*|
+								[']*[a-z]+([-][a-z]+)+(['][a-z]+)+[']*| 
 								[']*[a-z]+(['][a-z]+)+([-][a-z]+)+[']*|
 								['][a-z]+[']+[a-z]+|
 								['][a-z]+['][a-z]+[']|
@@ -50,22 +50,6 @@ def aposStrip(word):
 			word = word[1:]
 	
 	return word	
-
-def findMarkers(words):
-
-	stockMarkers = ['CHAPTER', 'ACT']
-	for word in words:
-		indices = [i for i, word in enumerate(words) if word.upper() in stockMarkers]
-
-	print indices
-
-	markerDict = {}
-	for index in indices:
-		if words[index+1].isDigit():
-			join = words[index] + " " + words[index+1] 
-			markerDict[index] = join
-
-	return markerDict
 
 def frequencyDistribution(words, type, stopWordsList):
 	"""	 """ 
