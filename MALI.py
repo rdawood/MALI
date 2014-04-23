@@ -10,6 +10,11 @@
 		This software package is an experiment in the design 
 		and implementation of a tokenizer for use in the context 
 		of literary study. 
+		This version (branch 1.0) and the latest version can 
+		be retrieved from:
+
+		https://github.com/rdawood/MALI
+		
 """
 
 from src.visualizer import *

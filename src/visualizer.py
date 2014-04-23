@@ -2,6 +2,39 @@
 
 from tokenizer import *
 
+"""
+	This part of the program is a series of functions that systematically
+	built the output for an html file.
+
+	Where tokenizer.py produces the data necessary to carry out statistical
+	analyses of texts, visualizer.py produces the distillation of that data
+	into a form that can be digested by the user. While the conventional 
+	essay is the tool of choice for literary scholars who are doing close
+	readings of a text, examining a text on a statistical level requires
+	that the reader, here split into two entities: the machine, and the user,
+	be able to see the 'forest for the trees', and paint a picture of the
+	text as a whole. In this regard, I feel that data visualization is 
+	the best tool for representing a text that is read through the lens
+	of machine assistance. 
+
+	while python has numerous libraries for data visualization, such as
+	matplotlib, the D3 (data driven documents, http://d3js.org/) is a
+	flexible and powerful web-based visualization library that uses 
+	scalable vector graphics. 
+
+	To get python to write the javascript for me, I sectioned the visualization
+	script into sections for the header, body, and style sheet, and then, 
+	based on whether the user wants to view a bar chart or a frequency plot, 
+	the visualizer reformats the tokenized data, collects the individual 
+	pieces of the javascript, and writes the new program to an html file,
+	which it executes using the user's default browser. 
+
+	Although most browsers work, I recommend firefox. Future versions of 
+	the visualizer script will execute a custom browser window that will be 
+	packaged with the program. 
+"""
+
+
 def writeHeader():
 	return """
 	<html>
@@ -323,8 +356,8 @@ def writeBody(visualization, dataset, title="", textLength=0):
 		"""
 
 def dataPrep(visualization, rawData, wordToTest=""):
-	"""rawData for Historgram -> wordCounter
-		rawData for frequencyPlot -> words"""
+	"""rawData for Historgram = wordCounter
+		rawData for frequencyPlot = words"""
 	if visualization == 'histogram':
 		numberMostCommon = 25
 		fullTextString = "["
@@ -365,6 +398,7 @@ def histogram(title, rawData, length):
 	body = writeBody('histogram', dataset, title, length)
 	
 	script = header + body + style
+	#concatenate the ingredients into a legible html file
 
 	runVisualization(script)
 
@@ -377,6 +411,7 @@ def frequencyPlot(wordToTest, rawData, title):
 	body = writeBody('frequencyPlot', dataset, title, textLength)
 	
 	script = header + body + style
+	#concatenate the ingredients into a legible html file
 
 	runVisualization(script)
 
