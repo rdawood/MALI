@@ -3,11 +3,13 @@
 """
 	M.A.L.I. (Machine Assisted Literary Interpretation)
 	version 1.0
-	This software is provided under the MIT License. Please refer to the license documentation included 
+	This software is provided under the MIT License. 
+	Please refer to the license documentation included 
 	with this package.
 
-		This software package is an experiment in the design and implementation of a tokenizer for use 
-		in the context of literary study. 
+		This software package is an experiment in the design 
+		and implementation of a tokenizer for use in the context 
+		of literary study. 
 """
 
 from src.visualizer import *
@@ -19,14 +21,16 @@ import time
 
 def main():
 	"""
-	Traverses the programs source directory to find any folders and files that can be read.
-	To add files for the program to read, add them in the same manner that the sample texts are 
-	structured (put the file in a folder under 'Texts').
+	Traverses the programs source directory to find any 
+	folders and files that can be read. To add files for 
+	the program to read, add them in the same manner that 
+	the sample texts are structured (put the file in a 
+	folder under 'Texts').
 	"""
 	padding = "---------------------------------------------"
 
 	"""
->>>>-------------------------------------------------------------------------------------Start--MAIN
+>>>>-----------------------------------------Start--MAIN
 	"""
 
 	currentDirectory = os.path.dirname(os.path.realpath(__file__)) + "/Texts/"
@@ -76,7 +80,7 @@ def main():
 	fileToBeParsed = traverseDirectory + filePicked
 
 	"""
->>>>-------------------------------------------------------------------------------------Start--Options
+>>>>------------------------------------------Start--Options
 	"""
 
 	quoteDelim = raw_input("""
@@ -115,16 +119,31 @@ def main():
 		stopWordsList = False
 	
 	"""
->>>>-------------------------------------------------------------------------------------Tokenize
+>>>>-----------------------------------------Tokenize
+	Generally this part of the program was frustriating 
+	to write. Getting the correct output, which is more 
+	deeply described in the tokenizer.py file, was the 
+	top priority, but second to that was making sure that 
+	this software package could easily scale from reading 
+	one text to reading many texts. The King James Bible 
+	was the benchmark for the first iterations of the 
+	program and often took 5-6 seconds to read into memory, 
+	tokenize, and run a frequency distribution on. By using 
+	regular expressions and taking advantage of simple prallel 
+	programming techniques, this was brought down to 1-2 seconds. 
+	I'm more comfortable with the idea of using this program to 
+	read multiple texts at once in the future, knowing that 
+	reading ten books the length of the Bible would take 
+	10-20 seconds rather than a minute.
 	"""
 
 	words = parseFileIntoWords(readFile(fileToBeParsed))
 
-	pool = Pool()
-
 	t2 = time.time()
 
 	if quoteDelim == "'" or stripApos.lower() == 'y':
+		pool = Pool()
+		#initiate a pool of workers.
 		words = pool.map(aposStrip, words)
 
 	wordCounter = frequencyDistribution(words, "word", stopWordsList)
@@ -132,15 +151,16 @@ def main():
 	print "\n\n" + padding + "Completed in " + str(round((time.time() - t2),2)) + " sec" + padding
 	
 	"""
->>>>-------------------------------------------------------------------------------------Write--Tokenizer--Output
+>>>>-----------------------------------------Write--Tokenizer--Output
 	"""
 
-	print "\n\nPrinting tokenizer output to tokenizer_ouput_" + filePicked[0:-4] + ".txt in\n\n" + os.path.dirname(os.path.realpath(__file__)) + "\n\n"
+	print "\n\nPrinting tokenizer output to tokenizer_output_" + filePicked[0:-4] + ".txt in\n\n" + os.path.dirname(os.path.realpath(__file__)) + "\n\n"
 
 	fileWrite = open("tokenizer_output_" + filePicked[0:-4] + ".txt", "w")
 	for tup in sorted(wordCounter.most_common(), key = lambda word: word[0]):
 		fileWrite.write(str(tup[0]) + ", " + str(tup[1]) +"\n")
 	fileWrite.close()
+	#Writes the tokenizers data to a text file in a comma separated format
 
 	print "\n"
 	input = raw_input("""
@@ -158,7 +178,7 @@ def main():
 	print padding
 
 	"""
->>>>-------------------------------------------------------------------------------------Call--Visualizer
+>>>>----------------------------------Call--Visualizer
 	"""
 
 	print """
