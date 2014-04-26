@@ -26,7 +26,7 @@ import time
 
 def main():
 	"""
-	Traverses the programs source directory to find any 
+	Main() begins by traversing the programs source directory to find any 
 	folders and files that can be read. To add files for 
 	the program to read, add them in the same manner that 
 	the sample texts are structured (put the file in a 
@@ -125,7 +125,7 @@ def main():
 	
 	"""
 >>>>-----------------------------------------Tokenize
-	Generally this part of the program was frustriating 
+	Generally, this part of the program was frustriating 
 	to write. Getting the correct output, which is more 
 	deeply described in the tokenizer.py file, was the 
 	top priority, but second to that was making sure that 
@@ -252,3 +252,10 @@ def main():
 
 if __name__ == '__main__':
 	main()
+
+	"""
+	End of the main() function. This file stitches together the functionality 
+	present in the other two files: tokenizer.py and visualizer.py, such that
+	it gives the user a baasic interface to interact with the tokenizer's
+	functionality by setting options and choosing output.
+	"""
