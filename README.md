@@ -1,7 +1,14 @@
 MALI
 ====
 
+
+
+
+
+
+
 Machine Assisted Literary Interpretation
+
 By Raza Dawood
 
 Folders and Files:
