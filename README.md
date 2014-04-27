@@ -8,8 +8,8 @@ By Raza Dawood
 
 A program that tokenizes texts and visualizes the output.
 
-Built using Python and D3.
-
+Built using Python 2.7 and D3.
+==============================================================================
 
 Folders and Files:
 
@@ -23,7 +23,7 @@ MALI
 				not be edited.
 
 		--> stopwords.txt 
-				A stock list of stop words compiled for use
+				A list of stop words compiled for use
 				in the program. Using it is entirely optional
 				and the user can replace the file with his/her
 				own, so long as it is named 'stopwords.txt'.
@@ -36,7 +36,7 @@ MALI
 		--> visualizer.py
 				Contains numerous helper functions for compiling
 				the javascript necessary to render the programs
-				graphical outputs. Also, it rewrites data from 
+				graphical outputs. It reformats tokenized data from 
 				list and tuple structures to a string resembling
 				JSON. Ultimately, it writes and calls the 
 				container.html file that contains the visualization.
@@ -49,7 +49,7 @@ MALI
 				scaling properly (such as if lines are written on
 				top of each other), maximize your screen and 
 				refresh the page (usually the F5 key). The graphs
-				are rendered for full-screen use. 
+				are designed for full-screen use. 
 				
 				To save a certain graph for use later, copy the
 				container.html file to a different directory. 
@@ -61,7 +61,7 @@ MALI
 		AUthor's Last Name
 
 			--> .txt files with author's work.
-					The program comes with six sample texts from
+					The program comes with sample texts from
 					six separate authors. 
 					
 					To add your own text, create a new folder
@@ -69,15 +69,17 @@ MALI
 					containing the text to be read within the 
 					folder that you created. The program will 
 					only select text files one level down from 
-					'Texts', so the structure
+					'Texts', so the structure:
 					
 					Texts -- Shakespeare -- Tragedies --> R&J.txt
-					will not work.
+					will not work, but
 
-					Plaint text file formats are preferred, but 
+					Texts -- Shakespeare --> R&J.txt
+					will
+
+					Plain text file formats are preferred, but 
 					the program will be able to read text
-					from HTML, and could successfully read its
-					own code in the visualizer.py file. 
+					from HTML. 
 
 	--> LICENSE
 			This software is provided under an MIT license, and
@@ -98,4 +100,6 @@ MALI
 	all folders and files in the order that they are currently in.
 	
 	**This software is provided 'as is' and does not come with a
-	warranty. Please refer to the LICENSE for more details. 
+	warranty. Please refer to the LICENSE for more details.
+
+

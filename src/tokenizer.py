@@ -66,11 +66,11 @@ def parseFileIntoWords(readThis):
 		such as periods, commas, and quotation marks. The function was flawed 
 		however, and couldn't understand the need to tokenize [by-the-way] as one 
 		token rather than [by] [the] and [way]. This distinction, however, is
-		debateable, and understanding the difference between an apostrophe at the 
-		beginng of a word to indicate dialect, such as ['bout] and an inline quote 
+		debateable. Others, such as understanding the difference between an apostrophe 
+		at the beginng of a word to indicate dialect, such as ['bout] and an inline quote 
 		such as ["'bout] is something that a simple algorithm could not address. 
 
-		An early version of the parseFileIntoWords functions was written as:
+		An early version of the parseFileIntoWords function was written as:
 
 		def parseFileIntoWords(readThis):
 			wordDictionary = {}
@@ -93,9 +93,9 @@ def parseFileIntoWords(readThis):
 			word = word.strip('/')
 			word = word.strip('\\')
 
-		return word
+			return word
 
-		The first function split the text into a first set of tokens based on 
+		The first function splits the text into a set of tokens based on 
 		white space. The output of this is heavily affected by punctuation, as
 		discussed above with the first two sentences of Coriolanus. Once the 
 		tokenized words were input into a dictionary, which, prior to the use
@@ -139,14 +139,14 @@ def parseFileIntoWords(readThis):
 		of the word [Rome],	or one of [Rome] and one of [Rome's]. Is the possessive 
 		a separate token or a specialized form of a derivable word? 
 		My experience in writing this program was to keep the first pass at a text, 
-		which this function is: a first attempt at tokenizing a text, which I believe 
-		can and should be tokenized in various ways to produce meaningful data, as a 
-		function that casts as wide a net as possible. If the first pass separates [Rome] 
+		which this function is (the first attempt at tokenizing a text, before one 
+		undertakes several further passes to produce meaningful data) as a 
+		function that casts as wide a net as possible. MALI's first pass separates [Rome] 
 		and [Rome's] and likewise commits its frequency distribution on these words 
 		being distinct. A second, more targeted pass can root out [Rome] from
 		[Rome's] if the user's data requirements necessitate that the distinction
-		be smoothed out. Data smoothing should be done with care and context,
-		which this program should not be trusted with doing automatically. 
+		be smoothed out. Data smoothing should be done with care and context;
+		something this program should not be trusted with doing automatically. 
 
 		For version 5, I had hoped that this algorithm would give me the words 
 		I needed:
@@ -161,8 +161,8 @@ def parseFileIntoWords(readThis):
 
 
 		This checked each letter in a word to see if it was an alpha character or 
-		apostrophe and concatenated it into a new word. This was extremely flawed
-		as, [by-the-way] wouldn't become [by] [the] [way] (and it is highly debatable
+		apostrophe and concatenated them into a new word. This was extremely flawed
+		as [by-the-way] wouldn't become [by] [the] [way] (and it is highly debatable
 		to say whether or not it should be considered three tokens), but became
 		[bytheway], which is a unique but completely unpredictable treatment 
 		of the text. 
@@ -203,16 +203,16 @@ def parseFileIntoWords(readThis):
 		Version 7 had kept the same base algorithm but allowed the user the 
 		ability to choose whether or not to remove beginning and ending 
 		apostrophes from words. The main focus of versions 7 and 8 were in
-		fleshing out the ability of the tokenizer to render complex visualizations
-		with the output from the tokenizer, and to split the entire program 
-		into numerous files. Ultimately, however, the main issue remained.
+		fleshing out the ability of the program to render complex visualizations
+		with the output from the tokenizer, to refine the internal functions for
+		better performance and cleaner code, and to split the entire program 
+		into numerous files. Ultimately, however, the main issue remained 
+		unresolved.	Of what use is an attractive visualization of word usage 
+		in a text if the underlying data was unreliable?
 
-		Of what use is an attractive visualization of word usage in a text
-		if the underlying data was unreliable?
-
-		Ultimately, and nine version into the software's life, I settled on a more 
-		complex, if slightly more elegant and powerful, solution. It relies on regular 
-		expressions and basic 'or' logic to run through the text and match patterns. 
+		Ultimately, and ninth version into the software's life, I settled on a more 
+		complex solution. It relies on regular expressions and basic 'or' logic 
+		to run through the text and match patterns. 
 
 		The patterns are as follows:
 							Pattern  									Matches
@@ -240,7 +240,7 @@ def parseFileIntoWords(readThis):
 
 		Because of the nature of this implementation of pattern recognition, the results 
 		for any given complex token, such as what's-his-name, would be a tuple. In that tuple 
-		are all	of the results of the pattern matching, beginngng with [what's-his-name], followed 
+		are all	of the results of the pattern matching, beginning with [what's-his-name], followed 
 		by [what's], [his], [name]. In the end, this tokenizer seeks to cast the widest 
 		possible net without repition, so the zeroth entry in each tuple is written to the 
 		final wordlist. Although the memory where the tuples are stored is lost once we 
@@ -318,7 +318,7 @@ def frequencyDistribution(words, type, stopWordsList):
 	counts, the interface is hard coded to pass a type of 'word' to this function. 
 
 	Also built into this function is flag of whether or not to run the tokenized output 
-	against a list of stop words.
+	against a list of stop words. 
 	""" 
 	from collections import Counter
 	import csv
