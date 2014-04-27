@@ -17,21 +17,26 @@ from tokenizer import *
 	the best tool for representing a text that is read through the lens
 	of machine assistance. 
 
-	while python has numerous libraries for data visualization, such as
+	While python has numerous libraries for data visualization, such as
 	matplotlib, the D3 (data driven documents, http://d3js.org/) is a
 	flexible and powerful web-based visualization library that uses 
-	scalable vector graphics. 
+	scalable vector graphics, which this program leverages for its
+	visualization. 
 
 	To get python to write the javascript for me, I sectioned the visualization
 	script into sections for the header, body, and style sheet, and then, 
 	based on whether the user wants to view a bar chart or a frequency plot, 
 	the visualizer reformats the tokenized data, collects the individual 
 	pieces of the javascript, and writes the new program to an html file,
-	which it executes using the user's default browser. 
+	which it executes using the user's default browser. The D3 is interpreted
+	by the browser, so these two programs can live harmoniously but be executed
+	separately. This also allows the user to save a visualization, as the 
+	HTML file that MALI generates is a self-contained script, complete with
+	the data necessary for the visualization to run. 
 
-	Although most browsers work, I recommend firefox. Future versions of 
-	the visualizer script will execute a custom browser window that will be 
-	packaged with the program. 
+	Although most browsers work, I recommend firefox. When I write the user
+	interface for the program, the visualization script will be interpreted
+	by the QT-Browser within the program. 
 """
 
 
@@ -86,7 +91,7 @@ def writeStyle(visualization):
 		</html>
 		"""
 
-def writeBody(visualization, dataset, title="", textLength=0):
+def writeBody(visualization, dataset, title, textLength):
 	if visualization == 'histogram':
 		return """
 		</body>
@@ -357,7 +362,30 @@ def writeBody(visualization, dataset, title="", textLength=0):
 
 def dataPrep(visualization, rawData, wordToTest=""):
 	"""rawData for Historgram = wordCounter
-		rawData for frequencyPlot = words"""
+		rawData for frequencyPlot = words
+
+		Each visualization type requires that data come in a specific
+		form. The bar chart works with key and value sets, in this case 
+		word: string, count: integer. 
+		
+		The frequency distribution requires a JSON format, with the 
+		word as a key: value and the occurences of that word as a subset
+		of data. The index of the word in the context of the word list
+		generated (in the array) is the marker for that word's occurence.
+		
+		As such, if a user specifies that stopwords should be removed,
+		to preserve the 'life of the text' as an axis of words occuring 
+		one after the other, the original word list is fed to this function.
+		The removal of stopwords was moved to the frequency distribution function,
+		to keep the data displayed in the tokenizer output file, the bar chart,
+		and the frequency distribution consistent, without requiring that the 
+		program rerun its functions depending on the user's choice. 
+
+		If a user specifies that beginning and end apostrophes be removed,
+		or that single quotes are the quote delimiter for the text, the input
+		for the frequency distribution will be post-apostrophe strip to ensure
+		that the data presented is inline with the user's choices.
+		"""
 	if visualization == 'histogram':
 		numberMostCommon = 25
 		fullTextString = "["
@@ -390,6 +418,10 @@ def dataPrep(visualization, rawData, wordToTest=""):
 		wordPositions += "];"
 		return wordPositions
 
+"""
+>>>>>----------------------------------------------------VISUALIZATION COMPILER
+"""
+
 def histogram(title, rawData, length):
 	header = writeHeader()
 	title = '"' + title[:-4] + '"'
@@ -415,6 +447,10 @@ def frequencyPlot(wordToTest, rawData, title):
 
 	runVisualization(script)
 
+"""
+>>>>>----------------------------------------------------RUN VIZ
+"""
+
 def runVisualization(script):
 	"""
 		Executes the container.html file using the webbrowser class.
@@ -423,7 +459,6 @@ def runVisualization(script):
 	import os.path
 
 	containerHTML = open("src/container.html", 'w')
-
 	containerHTML.write(script)
 	containerHTML.close()
 

@@ -93,22 +93,9 @@ MALI
 			This program utilizes all or some of the programs/
 			files contained in 'src' and 'Texts'.
 
-	Executables
-		--> MALI.exe
-			Windows compatible version of the software. This
-			can run without python installed on the computer
-			using it.
-		--> MALI.dmg
-			MAC compatible version of the software. Python comes 
-			pre-installed on Mac computers, but this bundle compiles
-			all of the source.
 
 	*If you plan on moving the program to a different folder, move
 	all folders and files in the order that they are currently in.
-	By using the distributed windows and mac version detailed 
-	above, you no longer need the source code, but the program
-	still relies on the existing folder structure to be able to
-	write the visualizations and read texts. 
-
+	
 	**This software is provided 'as is' and does not come with a
 	warranty. Please refer to the LICENSE for more details. 

@@ -70,6 +70,146 @@ def parseFileIntoWords(readThis):
 		beginng of a word to indicate dialect, such as ['bout] and an inline quote 
 		such as ["'bout] is something that a simple algorithm could not address. 
 
+		An early version of the parseFileIntoWords functions was written as:
+
+		def parseFileIntoWords(readThis):
+			wordDictionary = {}
+			split = readThis.split()
+			i = 0
+			for each in split:
+				wordDictionary[i] = each
+				i += 1
+
+			return wordDictionary
+
+		def wordStrip(word):
+			word = word.strip('.')
+			word = word.strip(',')
+			word = word.strip('?')
+			word = word.strip('!')
+			word = word.strip('"')
+			word = word.strip(':')
+			word = word.strip(';')
+			word = word.strip('/')
+			word = word.strip('\\')
+
+		return word
+
+		The first function split the text into a first set of tokens based on 
+		white space. The output of this is heavily affected by punctuation, as
+		discussed above with the first two sentences of Coriolanus. Once the 
+		tokenized words were input into a dictionary, which, prior to the use
+		of python's enumerate function to derive array indices, was MALI's way
+		of assigning each 'word' in a text to a numeric position in that text, a 
+		function called wordStrip was run. This relied on python's internal
+		strip() function to remove a list of stop characters from the word.
+
+		However, stripping a word without context led to tokens being dropped
+		and others being picked up that introduced a lot of noise into the dataset.
+
+		The next iteration of the wordStrip functionality became:
+
+		def wordStrip(word):
+			import re
+			word = word.strip('./,?:;!\\"')
+			word = word.strip('--')
+			word = word.strip(',--')
+			word = word.strip(",'")
+			word = word.strip("--'")
+			word = word.strip(':')
+
+			searchCriteria = "[A-Z]'s$|[a-z]'s$"
+
+			matchObj = re.findall(searchCriteria, word)
+
+			if matchObj:
+				word = word.strip("'s")
+
+			return word		
+
+		This attempted a more robust set of stripping rules that included tags which 
+		often occured in digital copies of texts, such as the double dash [--] for 
+		the long dash. 
+
+		Likewise, the word stripper attempted to flatten occurrences of tokens such
+		as [Samuel] and [Samuel's] into an occurence of [Samuel]. 
+
+		What is to be included and what is removed by the program is highly 
+		subjective,	where one can argue that [Rome] and [Rome's] are two instances 
+		of the word [Rome],	or one of [Rome] and one of [Rome's]. Is the possessive 
+		a separate token or a specialized form of a derivable word? 
+		My experience in writing this program was to keep the first pass at a text, 
+		which this function is: a first attempt at tokenizing a text, which I believe 
+		can and should be tokenized in various ways to produce meaningful data, as a 
+		function that casts as wide a net as possible. If the first pass separates [Rome] 
+		and [Rome's] and likewise commits its frequency distribution on these words 
+		being distinct. A second, more targeted pass can root out [Rome] from
+		[Rome's] if the user's data requirements necessitate that the distinction
+		be smoothed out. Data smoothing should be done with care and context,
+		which this program should not be trusted with doing automatically. 
+
+		For version 5, I had hoped that this algorithm would give me the words 
+		I needed:
+
+			wordStr = ""
+
+			for letter in word:
+				if letter.isalpha() or letter == "'":
+					wordStr += letter
+
+			return wordStr
+
+
+		This checked each letter in a word to see if it was an alpha character or 
+		apostrophe and concatenated it into a new word. This was extremely flawed
+		as, [by-the-way] wouldn't become [by] [the] [way] (and it is highly debatable
+		to say whether or not it should be considered three tokens), but became
+		[bytheway], which is a unique but completely unpredictable treatment 
+		of the text. 
+
+		Version 6 of the tokenizer contained this stripping function:
+
+		def wordStrip(word):
+
+			import re
+			wordStr = ""
+
+			stopChar = [",", ".", "!", "?", ":", ";", "<", ">", "/", "\\", "[", 
+			"]", "{", "}", "(", ")", "*", "&"]
+
+			for letter in word:
+				if letter not in stopChar:
+					wordStr += letter
+
+			if len(wordStr) > 0:
+				if wordStr[-1] == "'":
+					wordStr = wordStr[0:-1]
+			if len(wordStr) > 0:		
+				if wordStr[0] == "'":
+					wordStr = wordStr[1:]
+
+			return wordStr
+
+		This attempted to read each letter of a word and concatenate it into 
+		a new word as long as it did not appear in a stop character list. This 
+		was ultimately a more sophisticated way of incorrectly tokenizing the 
+		same output as version 5 above. I was more specific about which 
+		characters I would restrict, but ultimately rendered the same types 
+		of flawed tokens. This version also assumed that beginning and ending
+		apostrophes should be removed from a token, but considering words such
+		as [bout] as a confrontation and ['bout] as a shortening of the word 
+		[about], this function would incorrectly count [bout] twice. 
+
+		Version 7 had kept the same base algorithm but allowed the user the 
+		ability to choose whether or not to remove beginning and ending 
+		apostrophes from words. The main focus of versions 7 and 8 were in
+		fleshing out the ability of the tokenizer to render complex visualizations
+		with the output from the tokenizer, and to split the entire program 
+		into numerous files. Ultimately, however, the main issue remained.
+
+		Of what use is an attractive visualization of word usage in a text
+		if the underlying data was unreliable?
+
 		Ultimately, and nine version into the software's life, I settled on a more 
 		complex, if slightly more elegant and powerful, solution. It relies on regular 
 		expressions and basic 'or' logic to run through the text and match patterns. 
@@ -98,14 +238,17 @@ def parseFileIntoWords(readThis):
 		because it matches a more common pattern, where [by] [the] [way] would take 
 		precendence over [by-the-way]. 
 
-		Because of the nature of this pattern recognition, the results for any given 
-		complex token, such as what's-his-name, would be a tuple. In that tuple are all 
-		of the results of the pattern matching, beginngng with [what's-his-name], followed 
+		Because of the nature of this implementation of pattern recognition, the results 
+		for any given complex token, such as what's-his-name, would be a tuple. In that tuple 
+		are all	of the results of the pattern matching, beginngng with [what's-his-name], followed 
 		by [what's], [his], [name]. In the end, this tokenizer seeks to cast the widest 
 		possible net without repition, so the zeroth entry in each tuple is written to the 
 		final wordlist. Although the memory where the tuples are stored is lost once we 
 		exit the function call, it wouldn't be difficult to make use of these tuples to 
 		parse complex words like [what's-his-name] into the roots that make it up.
+
+		Again, this is an example of a second pass at a text to further smooth, or even
+		make more complex, the data derived from it. 
 	"""
 	
 	import re
@@ -145,7 +288,11 @@ def aposStrip(word):
 	working on, or if they specify that beginning and ending apostrophes should be removed, 
 	this function is executed. It checks if the zeroth or last character of a token is 
 	an apostrophe and rewrites that token as the token minus one character from the beginning 
-	or from the end.
+	or from the end. Noise is possible in this implementation, as [''bout'], a quote where 
+	the first letter of the token is an apostrophe, would retain its apostrophe and become 
+	['bout], but an instance of ['bout] outside of quotes would be stripped down to [bout].
+	Since use of this is user specified, and it is a 'second pass' function, the user 
+	is able to judge whether or not the results will be statistically material. 
 	"""
 	if len(word) > 0:
 		if word[-1] == "'":

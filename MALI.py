@@ -10,6 +10,13 @@
 		This software package is an experiment in the design 
 		and implementation of a tokenizer for use in the context 
 		of literary study. 
+
+		It tokenizes texts, generates word frequencies for the 
+		text, and provides the user with two dynamic visualization
+		options for viewing the tokenizer output. 
+
+		The program can run with any plain text file.
+
 		This version (branch 1.0) and the latest version can 
 		be retrieved from:
 
@@ -148,8 +155,11 @@ def main():
 
 	if quoteDelim == "'" or stripApos.lower() == 'y':
 		pool = Pool()
-		#initiate a pool of workers.
+		#initiate a pool of workers for parallel 
+		#processing
 		words = pool.map(aposStrip, words)
+		#rewrite each word to remove beginning and ending 
+		#apostrophes
 
 	wordCounter = frequencyDistribution(words, "word", stopWordsList)
 
