@@ -128,11 +128,11 @@ def parseFileIntoWords(readThis):
 			return word		
 
 		This attempted a more robust set of stripping rules that included tags which 
-		often occured in digital copies of texts, such as the double dash [--] for 
+		often occurred in digital copies of texts, such as the double dash [--] for 
 		the long dash. 
 
 		Likewise, the word stripper attempted to flatten occurrences of tokens such
-		as [Samuel] and [Samuel's] into an occurence of [Samuel]. 
+		as [Samuel] and [Samuel's] into an occurrence of [Samuel]. 
 
 		What is to be included and what is removed by the program is highly 
 		subjective,	where one can argue that [Rome] and [Rome's] are two instances 
@@ -236,13 +236,13 @@ def parseFileIntoWords(readThis):
 		and when looking at the patterns 1-10, they are in descending order from rare to 
 		common. This order ensures that the tokenizer doesn't gloss over a rare token just 
 		because it matches a more common pattern, where [by] [the] [way] would take 
-		precendence over [by-the-way]. 
+		precedence over [by-the-way]. 
 
 		Because of the nature of this implementation of pattern recognition, the results 
 		for any given complex token, such as what's-his-name, would be a tuple. In that tuple 
 		are all	of the results of the pattern matching, beginning with [what's-his-name], followed 
 		by [what's], [his], [name]. In the end, this tokenizer seeks to cast the widest 
-		possible net without repition, so the zeroth entry in each tuple is written to the 
+		possible net without repetition, so the zeroth entry in each tuple is written to the 
 		final wordlist. Although the memory where the tuples are stored is lost once we 
 		exit the function call, it wouldn't be difficult to make use of these tuples to 
 		parse complex words like [what's-his-name] into the roots that make it up.
@@ -314,7 +314,7 @@ def frequencyDistribution(words, type, stopWordsList):
 	For example, a text may have 1,000 instances of the token [the] and 6,000 instances of 
 	three letter words.
 
-	For the sake of the tokenizer's main output, which visualizes word occurences and 
+	For the sake of the tokenizer's main output, which visualizes word occurrences and 
 	counts, the interface is hard coded to pass a type of 'word' to this function. 
 
 	Also built into this function is flag of whether or not to run the tokenized output 

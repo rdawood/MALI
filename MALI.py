@@ -22,6 +22,17 @@
 
 		https://github.com/rdawood/MALI
 		
+	How to read this program:
+		Text enclosed in three quotation marks (colored red in the
+		print version) are long form comments, which annotate the
+		code that it appears with.
+
+		Shorter comments appear after a # symbol and are often
+		one line that describes what the line above it is meant
+		to do.
+
+		The program is broken up into three main files. Please 
+		refer to the README.md file for an overview of them.
 """
 
 from src.visualizer import *
@@ -33,20 +44,20 @@ import time
 
 def main():
 	"""
-	Main() begins by traversing the programs source directory to find any 
-	folders and files that can be read. To add files for 
-	the program to read, add them in the same manner that 
+	Main() begins by traversing the program's source directory 
+	to find any folders and files that can be read. To add files 
+	for the program to read, add them in the same manner that 
 	the sample texts are structured (put the file in a 
 	folder under 'Texts').
 	"""
 	padding = "---------------------------------------------"
 
 	"""
->>>>-----------------------------------------Start--MAIN
+>>>>-----------------------------------------Start--Traversal
 	"""
 
 	currentDirectory = os.path.dirname(os.path.realpath(__file__)) + "/Texts/"
-	#Find the programs current directory
+	#Find the program's current directory
 
 	listOfFolders, listOfFiles = [], []
 
@@ -69,7 +80,7 @@ def main():
 	folderPicked = dictOfFolders[int(folderPicked)-1]
 
 	traverseDirectory = currentDirectory + '/' + folderPicked + '/'
-	#traverse the directory chosen and comile a dictionary of files.
+	#traverse the directory chosen and compile a dictionary of files.
 
 	for root, dirs, files in os.walk(traverseDirectory):
 			for file in files:
@@ -132,7 +143,7 @@ def main():
 	
 	"""
 >>>>-----------------------------------------Tokenize
-	Generally, this part of the program was frustriating 
+	Generally, this part of the program was frustrating 
 	to write. Getting the correct output, which is more 
 	deeply described in the tokenizer.py file, was the 
 	top priority, but second to that was making sure that 
@@ -141,7 +152,7 @@ def main():
 	was the benchmark for the first iterations of the 
 	program and often took 5-6 seconds to read into memory, 
 	tokenize, and run a frequency distribution on. By using 
-	regular expressions and taking advantage of simple prallel 
+	regular expressions and taking advantage of simple parallel 
 	programming techniques, this was brought down to 1-2 seconds. 
 	I'm more comfortable with the idea of using this program to 
 	read multiple texts at once in the future, knowing that 
@@ -176,6 +187,7 @@ def main():
 		fileWrite.write(str(tup[0]) + ", " + str(tup[1]) +"\n")
 	fileWrite.close()
 	#Writes the tokenizers data to a text file in a comma separated format
+	#sorted by word
 
 	print "\n"
 	input = raw_input("""
@@ -200,7 +212,7 @@ def main():
 	Visualize the tokenizer's output using the options below:
 
 	1: Frequency Plot - display the frequency with which a word 
-	apears over the life of the text.
+	appears over the life of the text.
 
 	You may want to select one of the words in the top """ + input + """
 	displayed above. 
@@ -224,7 +236,7 @@ def main():
 			wordToTest = raw_input("""
 	Which word(s) would you like to plot? 
 
-	Enter a list of up to five words seperated by spaces:
+	Enter a list of up to five words separated by spaces:
 
 	>>"""
 			)
@@ -237,7 +249,7 @@ def main():
 	Visualize the tokenizer's output using the options below:
 
 	1: Frequency Plot - display the frequency with which a word 
-	apears over the life of the text.
+	appears over the life of the text.
 
 	You may want to select one of the words in the top """ + input + """
 	displayed above. 
@@ -266,6 +278,6 @@ if __name__ == '__main__':
 	"""
 	End of the main() function. This file stitches together the functionality 
 	present in the other two files: tokenizer.py and visualizer.py, such that
-	it gives the user a baasic interface to interact with the tokenizer's
+	it gives the user a basic interface with which to interact with the tokenizer's
 	functionality by setting options and choosing output.
 	"""

@@ -26,7 +26,8 @@ MALI
 				A list of stop words compiled for use
 				in the program. Using it is entirely optional
 				and the user can replace the file with his/her
-				own, so long as it is named 'stopwords.txt'.
+				own, so long as it is named 'stopwords.txt' and
+				is placed in this folder.
 
 		--> tokenizer.py
 				Functions used to read a text, tokenize it,
@@ -35,13 +36,19 @@ MALI
 
 		--> visualizer.py
 				Contains numerous helper functions for compiling
-				the javascript necessary to render the programs
+				the javascript necessary to render the program's
 				graphical outputs. It reformats tokenized data from 
 				list and tuple structures to a string resembling
 				JSON. Ultimately, it writes and calls the 
 				container.html file that contains the visualization.
 				The program runs in a loop to allow the user to render
 				multiple visualizations.
+
+		--> d3.min.js
+				Library for D3 (data driven documents). This is an
+				open source javascript visualization library that 
+				MALI uses to render two visualization scripts that
+				are written into visualization.py.
 
 		--> [container.html]
 				This file only appears after the program is run and
@@ -58,7 +65,7 @@ MALI
 
 	Texts
 
-		AUthor's Last Name
+		Author's Last Name
 
 			--> .txt files with author's work.
 					The program comes with sample texts from
@@ -75,7 +82,7 @@ MALI
 					will not work, but
 
 					Texts -- Shakespeare --> R&J.txt
-					will
+					works
 
 					Plain text file formats are preferred, but 
 					the program will be able to read text
@@ -96,8 +103,8 @@ MALI
 			files contained in 'src' and 'Texts'.
 
 
-	*If you plan on moving the program to a different folder, move
-	all folders and files in the order that they are currently in.
+	*If you plan on moving the program to a different folder, keep
+	the folder hierarchy in the same order as it is now.
 	
 	**This software is provided 'as is' and does not come with a
 	warranty. Please refer to the LICENSE for more details.

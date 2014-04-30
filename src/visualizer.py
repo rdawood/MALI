@@ -4,7 +4,7 @@ from tokenizer import *
 
 """
 	This part of the program is a series of functions that systematically
-	built the output for an html file.
+	build the output for an html file.
 
 	Where tokenizer.py produces the data necessary to carry out statistical
 	analyses of texts, visualizer.py produces the distillation of that data
@@ -23,7 +23,10 @@ from tokenizer import *
 	scalable vector graphics, which this program leverages for its
 	visualization. 
 
-	To get python to write the javascript for me, I sectioned the visualization
+	As such, there are actually two programming languages employed in this
+	file. The python takes long form strings that contain javascript.
+
+	To get python to write the javascript for me, I broke the visualization
 	script into sections for the header, body, and style sheet, and then, 
 	based on whether the user wants to view a bar chart or a frequency plot, 
 	the visualizer reformats the tokenized data, collects the individual 
@@ -34,17 +37,31 @@ from tokenizer import *
 	HTML file that MALI generates is a self-contained script, complete with
 	the data necessary for the visualization to run. 
 
+	In an example run, the user might select a frequency plot as the 
+	visualization type that they would like to view. The program will write 
+	separate variables for the header, body, and style portion of the HTML 
+	file. The header is uniform for all of the visualization types. The body is
+	completely unique to the visualization type, so each is a separate javascript
+	program in itself. The style portions are similar but are also written 
+	separately for each visualization type, as each has its own unique style,
+	which informs its purpose. 
+
+	Once the three variables are written, they are concatenated together into
+	a long string that contains an HTML header, a body with javascript and 
+	data, and a style sheet. The contents are written to a file called 
+	container.html, and can be read and modified as if it were a separate 
+	program written in HTML/javascript.
+
 	Although most browsers work, I recommend firefox. When I write the user
 	interface for the program, the visualization script will be interpreted
 	by the QT-Browser within the program. 
 """
 
-
 def writeHeader():
 	return """
 	<html>
 	<head>
-	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="d3.min.js"></script>
 	<meta charset="utf-8">
 	</head>
 	"""
@@ -91,7 +108,7 @@ def writeStyle(visualization):
 		</html>
 		"""
 
-def writeBody(visualization, dataset, title, textLength):
+def writeBody(visualization, dataset, title="", textLength=0):
 	if visualization == 'histogram':
 		return """
 		</body>
@@ -223,7 +240,7 @@ def writeBody(visualization, dataset, title, textLength):
 		<body>
 		<script>
 				var title = """ + title + """
-				var dataset = """ + dataset + """;
+				var dataset = """ + dataset + """
 				var textLength = """ + str(textLength) + """;
 				var h = screen.height/1.5;
 				var w = screen.width-100;
@@ -357,11 +374,11 @@ def writeBody(visualization, dataset, title, textLength):
 			<div id="descriptor">
 				<p>The frequency plot above marks each occurence of the word(s) indicated on the above left.</p>
 				<p>The axis runs from the first to the last word of the text.</p>
-				<p>The darker the color of the marks, the more frequently that word occurs in that section of the text.</p> </div>
+				<p>The brighter the color of the marks, the more frequently that word occurs in that section of the text.</p> </div>
 		"""
 
 def dataPrep(visualization, rawData, wordToTest=""):
-	"""rawData for Historgram = wordCounter
+	"""rawData for Histogram = wordCounter
 		rawData for frequencyPlot = words
 
 		Each visualization type requires that data come in a specific
@@ -369,12 +386,12 @@ def dataPrep(visualization, rawData, wordToTest=""):
 		word: string, count: integer. 
 		
 		The frequency distribution requires a JSON format, with the 
-		word as a key: value and the occurences of that word as a subset
+		word as a key: value and the occurrences of that word as a subset
 		of data. The index of the word in the context of the word list
-		generated (in the array) is the marker for that word's occurence.
+		generated (in the array) is the marker for that word's occurrence.
 		
 		As such, if a user specifies that stopwords should be removed,
-		to preserve the 'life of the text' as an axis of words occuring 
+		to preserve the 'life of the text' as an axis of words occurring 
 		one after the other, the original word list is fed to this function.
 		The removal of stopwords was moved to the frequency distribution function,
 		to keep the data displayed in the tokenizer output file, the bar chart,
@@ -384,8 +401,8 @@ def dataPrep(visualization, rawData, wordToTest=""):
 		If a user specifies that beginning and end apostrophes be removed,
 		or that single quotes are the quote delimiter for the text, the input
 		for the frequency distribution will be post-apostrophe strip to ensure
-		that the data presented is inline with the user's choices.
-		"""
+		that the data presented is in-line with the user's choices.
+	"""
 	if visualization == 'histogram':
 		numberMostCommon = 25
 		fullTextString = "["
@@ -418,10 +435,6 @@ def dataPrep(visualization, rawData, wordToTest=""):
 		wordPositions += "];"
 		return wordPositions
 
-"""
->>>>>----------------------------------------------------VISUALIZATION COMPILER
-"""
-
 def histogram(title, rawData, length):
 	header = writeHeader()
 	title = '"' + title[:-4] + '"'
@@ -430,7 +443,6 @@ def histogram(title, rawData, length):
 	body = writeBody('histogram', dataset, title, length)
 	
 	script = header + body + style
-	#concatenate the ingredients into a legible html file
 
 	runVisualization(script)
 
@@ -443,13 +455,8 @@ def frequencyPlot(wordToTest, rawData, title):
 	body = writeBody('frequencyPlot', dataset, title, textLength)
 	
 	script = header + body + style
-	#concatenate the ingredients into a legible html file
 
 	runVisualization(script)
-
-"""
->>>>>----------------------------------------------------RUN VIZ
-"""
 
 def runVisualization(script):
 	"""
@@ -466,4 +473,3 @@ def runVisualization(script):
 	# sys.stderr = os.devnull	
 	
 	webbrowser.open("file:///" + os.path.realpath('src/container.html'))
-
