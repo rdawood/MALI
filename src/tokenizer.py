@@ -241,7 +241,7 @@ def parseFileIntoWords(readThis):
 		Because of the nature of this implementation of pattern recognition, the results 
 		for any given complex token, such as what's-his-name, would be a tuple. In that tuple 
 		are all	of the results of the pattern matching, beginning with [what's-his-name], followed 
-		by [what's], [his], [name]. In the end, this tokenizer seeks to cast the widest 
+		by any part of the expression in (). In the end, this tokenizer seeks to cast the widest 
 		possible net without repetition, so the zeroth entry in each tuple is written to the 
 		final wordlist. Although the memory where the tuples are stored is lost once we 
 		exit the function call, it wouldn't be difficult to make use of these tuples to 
@@ -317,7 +317,7 @@ def frequencyDistribution(words, type, stopWordsList):
 	For the sake of the tokenizer's main output, which visualizes word occurrences and 
 	counts, the interface is hard coded to pass a type of 'word' to this function. 
 
-	Also built into this function is flag of whether or not to run the tokenized output 
+	Also built into this function is a flag of whether or not to run the tokenized output 
 	against a list of stop words. 
 	""" 
 	from collections import Counter
