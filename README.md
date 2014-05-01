@@ -1,7 +1,5 @@
-MALI
-====
-
-
+M.A.L.I
+=======
 Machine Assisted Literary Interpretation
 
 By Raza Dawood
@@ -17,7 +15,7 @@ MALI
 
 	src
 
-		-->	__init__.py
+		--> __init__.py
 				Initializes the programs directory to allow
 				imports. It is intentionally blank and should
 				not be edited.

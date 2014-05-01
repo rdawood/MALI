@@ -239,13 +239,14 @@ def parseFileIntoWords(readThis):
 		precedence over [by-the-way]. 
 
 		Because of the nature of this implementation of pattern recognition, the results 
-		for any given complex token, such as what's-his-name, would be a tuple. In that tuple 
-		are all	of the results of the pattern matching, beginning with [what's-his-name], followed 
-		by any part of the expression in (). In the end, this tokenizer seeks to cast the widest 
-		possible net without repetition, so the zeroth entry in each tuple is written to the 
-		final wordlist. Although the memory where the tuples are stored is lost once we 
-		exit the function call, it wouldn't be difficult to make use of these tuples to 
-		parse complex words like [what's-his-name] into the roots that make it up.
+		for any given complex token, such as what's-his-name, would be a tuple. In that 
+		tuple are all of the results of the pattern matching, beginning with 
+		[what's-his-name], followed by any part of the expression in (). In the end, this 
+		tokenizer seeks to cast the widest possible net without repetition, so the zeroth 
+		entry in each tuple is written to the final wordlist. Although the memory where 
+		the tuples are stored is lost once we exit the function call, it wouldn't be 
+		difficult to make use of these tuples to parse complex words like [what's-his-name] 
+		into the roots that make it up.
 
 		Again, this is an example of a second pass at a text to further smooth, or even
 		make more complex, the data derived from it. 
@@ -285,14 +286,15 @@ def aposStrip(word):
 	"""
 		str -> str
 	If the user specifies apostrophes as the quote delimiter of the text that they are 
-	working on, or if they specify that beginning and ending apostrophes should be removed, 
-	this function is executed. It checks if the zeroth or last character of a token is 
-	an apostrophe and rewrites that token as the token minus one character from the beginning 
-	or from the end. Noise is possible in this implementation, as [''bout'], a quote where 
-	the first letter of the token is an apostrophe, would retain its apostrophe and become 
-	['bout], but an instance of ['bout] outside of quotes would be stripped down to [bout].
-	Since use of this is user specified, and it is a 'second pass' function, the user 
-	is able to judge whether or not the results will be statistically material. 
+	working on, or if they specify that beginning and ending apostrophes should be 
+	removed, this function is executed. It checks if the zeroth or last character of 
+	a token is an apostrophe and rewrites that token as the token minus one character 
+	from the beginning or from the end. Noise is possible in this implementation, as 
+	[''bout'], a quote where the first letter of the token is an apostrophe, would 
+	retain its apostrophe and become ['bout], but an instance of ['bout] outside of 
+	quotes would be stripped down to [bout]. Since use of this is user specified, 
+	and it is a 'second pass' function, the user is able to judge whether or not the 
+	results will be statistically material. 
 	"""
 	if len(word) > 0:
 		if word[-1] == "'":
@@ -305,11 +307,11 @@ def aposStrip(word):
 def frequencyDistribution(words, type, stopWordsList):
 	"""	 
 		str -> [tuple]
-	This function does all of the counting for the tokenizer. As important as the tokenizer 
-	function is, in that the input it provides will be the basis for the counts, the 
-	frequencyDistribution function provides the data that the user interacts with. The 
-	function is flexible in that it can count how often a word occurs, or it can count
-	how often a word length occurs.
+	This function does all of the counting for the tokenizer. As important as the 
+	tokenizer function is, in that the input it provides will be the basis for the 
+	counts, the frequencyDistribution function provides the data that the user interacts 
+	with. The function is flexible in that it can count how often a word occurs, or it 
+	can count how often a word length occurs.
 
 	For example, a text may have 1,000 instances of the token [the] and 6,000 instances of 
 	three letter words.

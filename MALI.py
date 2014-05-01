@@ -17,15 +17,20 @@
 
 		The program can run with any plain text file.
 
-		This version (branch 1.0) and the latest version can 
-		be retrieved from:
+		This version (branch 1.0) and versions with any future
+		updates can	be retrieved from:
 
 		https://github.com/rdawood/MALI
 		
 	How to read this program:
 		Text enclosed in three quotation marks (colored red in the
-		print version) are long form comments, which annotate the
-		code that it appears with.
+		print version) are often long form comments, which annotate the
+		code that it appears with. For MALI.py, some of the content 
+		of the program is the user interface, which prompts the user
+		for settings and input. These appear as long form comments.
+		For visualizer.py, much of the content of the file appears 
+		in long form strings as well, as the main purpose of that 
+		file is to compile and render javascript. 
 
 		Shorter comments appear after a # symbol and are often
 		one line that describes what the line above it is meant
@@ -49,7 +54,11 @@ def main():
 	for the program to read, add them in the same manner that 
 	the sample texts are structured (put the file in a 
 	folder under 'Texts').
+	
+	Where the word raw_input() occurs, the program is prompting
+	the user for input, usually the answer to a question.
 	"""
+	
 	padding = "---------------------------------------------"
 
 	"""
@@ -142,7 +151,8 @@ def main():
 		stopWordsList = False
 	
 	"""
->>>>-----------------------------------------Tokenize
+>>>>----------------------------------Begin--Tokenizing
+
 	Generally, this part of the program was frustrating 
 	to write. Getting the correct output, which is more 
 	deeply described in the tokenizer.py file, was the 
