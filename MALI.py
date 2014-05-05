@@ -21,23 +21,6 @@
 		updates can	be retrieved from:
 
 		https://github.com/rdawood/MALI
-		
-	How to read this program:
-		Text enclosed in three quotation marks (colored red in the
-		print version) are often long form comments, which annotate the
-		code that it appears with. For MALI.py, some of the content 
-		of the program is the user interface, which prompts the user
-		for settings and input. These appear as long form comments.
-		For visualizer.py, much of the content of the file appears 
-		in long form strings as well, as the main purpose of that 
-		file is to compile and render javascript. 
-
-		Shorter comments appear after a # symbol and are often
-		one line that describes what the line above it is meant
-		to do.
-
-		The program is broken up into three main files. Please 
-		refer to the README.md file for an overview of them.
 """
 
 from src.visualizer import *
@@ -48,16 +31,6 @@ from multiprocessing import Pool
 import time
 
 def main():
-	"""
-	Main() begins by traversing the program's source directory 
-	to find any folders and files that can be read. To add files 
-	for the program to read, add them in the same manner that 
-	the sample texts are structured (put the file in a 
-	folder under 'Texts').
-	
-	Where the word raw_input() occurs, the program is prompting
-	the user for input, usually the answer to a question.
-	"""
 	
 	padding = "---------------------------------------------"
 
@@ -153,21 +126,6 @@ def main():
 	"""
 >>>>----------------------------------Begin--Tokenizing
 
-	Generally, this part of the program was frustrating 
-	to write. Getting the correct output, which is more 
-	deeply described in the tokenizer.py file, was the 
-	top priority, but second to that was making sure that 
-	this software package could easily scale from reading 
-	one text to reading many texts. The King James Bible 
-	was the benchmark for the first iterations of the 
-	program and often took 5-6 seconds to read into memory, 
-	tokenize, and run a frequency distribution on. By using 
-	regular expressions and taking advantage of simple parallel 
-	programming techniques, this was brought down to 1-2 seconds. 
-	I'm more comfortable with the idea of using this program to 
-	read multiple texts at once in the future, knowing that 
-	reading ten books the length of the Bible would take 
-	10-20 seconds rather than a minute.
 	"""
 
 	words = parseFileIntoWords(readFile(fileToBeParsed))
@@ -284,10 +242,3 @@ def main():
 
 if __name__ == '__main__':
 	main()
-
-	"""
-	End of the main() function. This file stitches together the functionality 
-	present in the other two files: tokenizer.py and visualizer.py, such that
-	it gives the user a basic interface with which to interact with the tokenizer's
-	functionality by setting options and choosing output.
-	"""

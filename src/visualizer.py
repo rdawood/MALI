@@ -2,61 +2,6 @@
 
 from tokenizer import *
 
-"""
-	This part of the program is a series of functions that systematically
-	build the output for an html file.
-
-	Where tokenizer.py produces the data necessary to carry out statistical
-	analyses of texts, visualizer.py produces the distillation of that data
-	into a form that can be digested by the user. While the conventional 
-	essay is the tool of choice for literary scholars who are doing close
-	readings of a text, examining a text on a statistical level requires
-	that the reader, here split into two entities: the machine, and the user,
-	be able to see the 'forest for the trees', and paint a picture of the
-	text as a whole. In this regard, I feel that data visualization is 
-	the best tool for representing a text that is read through the lens
-	of machine assistance. 
-
-	While python has numerous libraries for data visualization, such as
-	matplotlib, the D3 (data driven documents, http://d3js.org/) is a
-	flexible and powerful web-based visualization library that uses 
-	scalable vector graphics, which this program leverages for its
-	visualization. 
-
-	As such, there are actually two programming languages employed in this
-	file. The python takes long form strings that contain javascript.
-
-	To get python to write the javascript for me, I broke the visualization
-	script into sections for the header, body, and style sheet, and then, 
-	based on whether the user wants to view a bar chart or a frequency plot, 
-	the visualizer reformats the tokenized data, collects the individual 
-	pieces of the javascript, and writes the new program to an html file,
-	which it executes using the user's default browser. The D3 is interpreted
-	by the browser, so these two programs can live harmoniously but be executed
-	separately. This also allows the user to save a visualization, as the 
-	HTML file that MALI generates is a self-contained script, complete with
-	the data necessary for the visualization to run. 
-
-	In an example run, the user might select a frequency plot as the 
-	visualization type that they would like to view. The program will write 
-	separate variables for the header, body, and style portion of the HTML 
-	file. The header is uniform for all of the visualization types. The body is
-	completely unique to the visualization type, so each is a separate javascript
-	program in itself. The style portions are similar but are also written 
-	separately for each visualization type, as each has its own unique style,
-	which informs its purpose. 
-
-	Once the three variables are written, they are concatenated together into
-	a long string that contains an HTML header, a body with javascript and 
-	data, and a style sheet. The contents are written to a file called 
-	container.html, and can be read and modified as if it were a separate 
-	program written in HTML/javascript.
-
-	Although most browsers work, I recommend firefox. When I write the user
-	interface for the program, the visualization script will be interpreted
-	by the QT-Browser within the program. 
-"""
-
 def writeHeader():
 	return """
 	<html>
@@ -380,28 +325,6 @@ def writeBody(visualization, dataset, title="", textLength=0):
 def dataPrep(visualization, rawData, wordToTest=""):
 	"""rawData for Histogram = wordCounter
 		rawData for frequencyPlot = words
-
-		Each visualization type requires that data come in a specific
-		form. The bar chart works with key and value sets, in this case 
-		word: string, count: integer. 
-		
-		The frequency distribution requires a JSON format, with the 
-		word as a key: value and the occurrences of that word as a subset
-		of data. The index of the word in the context of the word list
-		generated (in the array) is the marker for that word's occurrence.
-		
-		As such, if a user specifies that stopwords should be removed,
-		to preserve the 'life of the text' as an axis of words occurring 
-		one after the other, the original word list is fed to this function.
-		The removal of stopwords was moved to the frequency distribution function,
-		to keep the data displayed in the tokenizer output file, the bar chart,
-		and the frequency distribution consistent, without requiring that the 
-		program rerun its functions depending on the user's choice. 
-
-		If a user specifies that beginning and end apostrophes be removed,
-		or that single quotes are the quote delimiter for the text, the input
-		for the frequency distribution will be post-apostrophe strip to ensure
-		that the data presented is in-line with the user's choices.
 	"""
 	if visualization == 'histogram':
 		numberMostCommon = 25
