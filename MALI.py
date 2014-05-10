@@ -53,12 +53,16 @@ def main():
 		dictOfFolders[each] = listOfFolders[each]
 	#Write a dictionary of folders for the user to choose from.
 
-	print "Which directory would you like to search?\n"
+	folderPicked = ''
 
-	for each in dictOfFolders:
-		print str(each+1) + ": " + dictOfFolders[each]
+	while (not folderPicked.isdigit()) or (int(folderPicked) > len(dictOfFolders) or (int(folderPicked) == 0)):
+		print "Which directory would you like to search?\n"
 
-	folderPicked = raw_input(">>")
+		for each in dictOfFolders:
+			print str(each+1) + ": " + dictOfFolders[each]
+
+		folderPicked = raw_input(">>")
+		
 	folderPicked = dictOfFolders[int(folderPicked)-1]
 
 	traverseDirectory = currentDirectory + '/' + folderPicked + '/'
@@ -73,13 +77,18 @@ def main():
 	for each in range(len(listOfFiles)):
 		dictOfFiles[each] = listOfFiles[each]
 
-	print """Which file would you like to read into the program?
-		""" + padding
+	filePicked = ''
 
-	for each in dictOfFiles:
-		print str(each+1) + ": " + dictOfFiles[each]
+	while (not filePicked.isdigit()) or (int(filePicked) > len(dictOfFolders) or (int(filePicked) == 0)):
 
-	filePicked = raw_input(">>")
+		print """Which file would you like to read into the program?
+			""" + padding
+
+		for each in dictOfFiles:
+			print str(each+1) + ": " + dictOfFiles[each]
+
+		filePicked = raw_input(">>")
+
 	filePicked = dictOfFiles[int(filePicked)-1]
 
 	fileToBeParsed = traverseDirectory + filePicked
@@ -88,34 +97,51 @@ def main():
 >>>>------------------------------------------Start--Options
 	"""
 
-	quoteDelim = raw_input("""
-	What is the quote delimiter for this text?
+	quoteDelim = 0
 
-	\" or \' 
+	while quoteDelim == 0:
+		quoteDelim = raw_input("""
+		What is the quote delimiter for this text?
 
-	>>""")
+		1: \" 
+		2: \' 
 
-	stripApos = raw_input("""
-	Strip beginning and trailing apostrophes from words? 
-	
-	Y or N
+		>>""")
 
-	>>""")
+		if not quoteDelim.isdigit():
+			print "Please select 1 or 2"
+			quoteDelim = 0
+		elif int(quoteDelim) == 1:
+			quoteDelim = '"'
+		elif int(quoteDelim) == 2:
+			quoteDelim = "'"
+		else:
+			print "Please select 1 or 2"
+			quoteDelim = 0
 
-	if stripApos.lower() != 'y' and stripApos.lower() != 'n':
-		print "Defaulting to Y"
+	stripApos = ''
+
+	while stripApos.lower() != 'y' and stripApos.lower() != 'n':
+		stripApos = raw_input("""
+		Strip beginning and trailing apostrophes from words? 
+		
+		Y or N
+
+		>>""")
+
+
 
 	stopWords = raw_input("""
-	Run the file against a list to remove common words? 
+		Run the file against a list to remove common words? 
 
-	(If you choose yes the program will use a stock stop words list 
-	in the 'src' folder. 
+		(If you choose yes the program will use a stock stop words list 
+		in the 'src' folder. 
 
-	You can replace this file with your own.) 
+		You can replace this file with your own.) 
 
-	Y or N
+		Y or N
 
-	>>""")
+		>>""")
 
 	if stopWords.lower() == 'y': 
 		stopWordsFile = open('src/stopwords.txt', 'r')
@@ -142,20 +168,52 @@ def main():
 
 	wordCounter = frequencyDistribution(words, "word", stopWordsList)
 
-	print "\n\n" + padding + "Completed in " + str(round((time.time() - t2),2)) + " sec" + padding
+	print "\n\n" + padding + "\n" + "Completed in " +  str(round((time.time() - t2),2)) + " sec" + "\n" + padding
 	
 	"""
 >>>>-----------------------------------------Write--Tokenizer--Output
 	"""
 
-	print "\n\nPrinting tokenizer output to tokenizer_output_" + filePicked[0:-4] + ".txt in\n\n" + os.path.dirname(os.path.realpath(__file__)) + "\n\n"
+	sortOutput = 0
+	tokenCount = len(words)
 
-	fileWrite = open("tokenizer_output_" + filePicked[0:-4] + ".txt", "w")
-	for tup in sorted(wordCounter.most_common(), key = lambda word: word[0]):
-		fileWrite.write(str(tup[0]) + ", " + str(tup[1]) +"\n")
-	fileWrite.close()
-	#Writes the tokenizers data to a text file in a comma separated format
-	#sorted by word
+	while sortOutput == 0:
+		sortOutput = raw_input("""
+			Sort the tokenizer output by word or by frequency?
+	
+			1: Sort by word: A ---> Z
+			2: Sort by frequency: 9 ---> 0
+
+			>>""")
+
+		if not sortOutput.isdigit():
+			print "Please enter 1 or 2"
+			sortOutput = 0
+		elif int(sortOutput) == 1:
+			print "\n\nPrinting tokenizer output to tokenizer_output_" + filePicked[0:-4] + ".txt in\n\n" + os.path.dirname(os.path.realpath(__file__)) + "\n\n"
+			try:
+				fileWrite = open("tokenizer_output_" + filePicked[0:-4] + ".txt", "w")
+				fileWrite.write("WORD\tCOUNT\tRELATIVE_FREQUENCY")
+				for tup in sorted(wordCounter.most_common(), key = lambda word: word[0]):
+					fileWrite.write("\n" + str(tup[0]) + "\t" + str(tup[1]) + "\t" + str(round(float(tup[1])/float(tokenCount),6)))
+				fileWrite.close()
+			except IOError:
+				print "File is currently open. Please close it and try again."
+		elif int(sortOutput) == 2:
+			print "\n\nPrinting tokenizer output to tokenizer_output_" + filePicked[0:-4] + ".txt in\n\n" + os.path.dirname(os.path.realpath(__file__)) + "\n\n"
+			try:
+				fileWrite = open("tokenizer_output_" + filePicked[0:-4] + ".txt", "w")
+				fileWrite.write("WORD\tCOUNT\tRELATIVE_FREQUENCY")
+				for tup in wordCounter.most_common():
+					fileWrite.write( "\n" + str(tup[0]) + "\t" + str(tup[1]) + "\t" + str(round(float(tup[1])/float(tokenCount),6)))
+				fileWrite.close()
+			except IOError:
+				print "File is currently open. Please close it and try again."
+		else:
+			print "Please enter 1 or 2"
+			sortOutput = 0			
+
+
 
 	print "\n"
 	input = raw_input("""
@@ -176,44 +234,11 @@ def main():
 >>>>----------------------------------Call--Visualizer
 	"""
 
-	print """
-	Visualize the tokenizer's output using the options below:
 
-	1: Frequency Plot - display the frequency with which a word 
-	appears over the life of the text.
-
-	You may want to select one of the words in the top """ + input + """
-	displayed above. 
-
-	Type '1' to select this option.
-
-	2. Histogram - chart the most often used words in the text 
-	in a standard bar chart. 
-
-	Type '2' to select this option.
-
-	Type 'Q' to exit."""
-	
-
-	visualizationType = raw_input("""
-
-	>>""")
+	visualizationType = ""
 
 	while visualizationType.lower() != 'q':
-		if visualizationType == '1':
-			wordToTest = raw_input("""
-	Which word(s) would you like to plot? 
-
-	Enter a list of up to five words separated by spaces:
-
-	>>"""
-			)
-			wordToTest = wordToTest.split()
-			frequencyPlot(wordToTest, words, filePicked)
-		elif visualizationType == '2':
-			histogram(filePicked, wordCounter.most_common(25), len(words))
-		else:
-			print """
+		print """
 	Visualize the tokenizer's output using the options below:
 
 	1: Frequency Plot - display the frequency with which a word 
@@ -230,13 +255,22 @@ def main():
 	Type '2' to select this option.
 
 	Type 'Q' to exit.
-			"""
-	
-
+				"""
 		visualizationType = raw_input("""
 
+	>>""")
+		if visualizationType == '1':
+			wordToTest = raw_input("""
+	Which word(s) would you like to plot? 
+
+	Enter a list of up to five words separated by spaces:
+
 	>>"""
-		)
+			)
+			wordToTest = wordToTest.split()
+			frequencyPlot(wordToTest, words, filePicked)
+		elif visualizationType == '2':
+			histogram(filePicked, wordCounter.most_common(25), len(words))	
 
 	sys.exit()
 

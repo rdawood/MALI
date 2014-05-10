@@ -349,7 +349,7 @@ def dataPrep(visualization, rawData, wordToTest=""):
 	elif visualization == 'frequencyPlot':
 		wordPositions = "["
 		
-		for userSelectedItem in wordToTest:
+		for userSelectedItem in wordToTest[0:4]:
 			wordPositions += "{word: " + '"' + userSelectedItem + '"' + ", occurence: "
 			indices = [i for i, x in enumerate(rawData) if x.lower() == userSelectedItem]
 			wordPositions += str(indices) + "}, "
@@ -385,6 +385,7 @@ def runVisualization(script):
 	"""
 		Executes the container.html file using the webbrowser class.
 	"""
+
 	import webbrowser
 	import os.path
 

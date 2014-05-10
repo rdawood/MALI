@@ -82,8 +82,6 @@ def frequencyDistribution(words, type, stopWordsList):
 		wordLengthList = []
 
 		for value in words:
-			word = words[value]
-			word = wordStrip(word, quoteDelim, stripApos)
 			if word != '':
 				wordLengthList.append(len(word))
 		wordLengthCounter = wordLengthCounter + Counter(wordLengthList)
