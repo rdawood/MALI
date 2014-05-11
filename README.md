@@ -86,6 +86,16 @@ MALI
 					the program will be able to read text
 					from HTML. 
 
+	UI
+		--> browser.py
+			Browser class written in PyQt using QtDesigner. The 
+			browser uses the QT webkit to render the output
+			javascript. container.html can still be executed
+			using any modern browser, but this file allows 
+			the program to execute some more control over the 
+			visual output, and is also the first step towards
+			creating a full graphical user interface for MALI. 
+
 	--> LICENSE
 			This software is provided under an MIT license, and
 			as such can be freely used so long as the license 
