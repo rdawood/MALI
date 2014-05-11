@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from tokenizer import *
+from UI.browser import *
 
 def writeHeader():
 	return """
@@ -234,7 +235,6 @@ def writeBody(visualization, dataset, title="", textLength=0):
 								.enter()
 									.append("text")
 									.text(function (d, i) {
-										console.log(i);
 										return d.word;
 									})
 										.each(function (d, i) {
@@ -349,7 +349,7 @@ def dataPrep(visualization, rawData, wordToTest=""):
 	elif visualization == 'frequencyPlot':
 		wordPositions = "["
 		
-		for userSelectedItem in wordToTest[0:4]:
+		for userSelectedItem in wordToTest:
 			wordPositions += "{word: " + '"' + userSelectedItem + '"' + ", occurence: "
 			indices = [i for i, x in enumerate(rawData) if x.lower() == userSelectedItem]
 			wordPositions += str(indices) + "}, "
@@ -385,15 +385,18 @@ def runVisualization(script):
 	"""
 		Executes the container.html file using the webbrowser class.
 	"""
-
-	import webbrowser
+	import sys
 	import os.path
 
 	containerHTML = open("src/container.html", 'w')
+
 	containerHTML.write(script)
 	containerHTML.close()
 
-	# sys.stdout = os.devnull
-	# sys.stderr = os.devnull	
-	
-	webbrowser.open("file:///" + os.path.realpath('src/container.html'))
+	url = "file:///" + os.path.dirname(os.path.realpath(__file__)) + "/container.html"
+
+	app = QtGui.QApplication(sys.argv)
+	main = vizBrowser()
+	main.renderVisualization(url)
+	main.showMaximized()
+	sys.exit(app.exec_())
