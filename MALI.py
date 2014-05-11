@@ -17,6 +17,9 @@
 
 		The program can run with any plain text file.
 
+		This version (branch 1.0) and versions with any future
+		updates can	be retrieved from:
+
 		https://github.com/rdawood/MALI
 """
 
@@ -190,9 +193,9 @@ def main():
 			print "\n\nPrinting tokenizer output to tokenizer_output_" + filePicked[0:-4] + ".txt in\n\n" + os.path.dirname(os.path.realpath(__file__)) + "\n\n"
 			try:
 				fileWrite = open("tokenizer_output_" + filePicked[0:-4] + ".txt", "w")
-				fileWrite.write("WORD, COUNT, RELATIVE_FREQUENCY")
+				fileWrite.write("WORD\tCOUNT\tRELATIVE_FREQUENCY")
 				for tup in sorted(wordCounter.most_common(), key = lambda word: word[0]):
-					fileWrite.write(str(tup[0]) + ", " + str(tup[1]) + "," + str(float(tup[1])/float(tokenCount)) +"\n")
+					fileWrite.write("\n" + str(tup[0]) + "\t" + str(tup[1]) + "\t" + str(round(float(tup[1])/float(tokenCount),6)))
 				fileWrite.close()
 			except IOError:
 				print "File is currently open. Please close it and try again."
@@ -200,9 +203,9 @@ def main():
 			print "\n\nPrinting tokenizer output to tokenizer_output_" + filePicked[0:-4] + ".txt in\n\n" + os.path.dirname(os.path.realpath(__file__)) + "\n\n"
 			try:
 				fileWrite = open("tokenizer_output_" + filePicked[0:-4] + ".txt", "w")
-				fileWrite.write("WORD, COUNT, RELATIVE_FREQUENCY")
+				fileWrite.write("WORD\tCOUNT\tRELATIVE_FREQUENCY")
 				for tup in wordCounter.most_common():
-					fileWrite.write(str(tup[0]) + ", " + str(tup[1]) + "," + str(float(tup[1])/float(tokenCount)) +"\n")
+					fileWrite.write( "\n" + str(tup[0]) + "\t" + str(tup[1]) + "\t" + str(round(float(tup[1])/float(tokenCount),6)))
 				fileWrite.close()
 			except IOError:
 				print "File is currently open. Please close it and try again."
